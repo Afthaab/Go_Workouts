@@ -5,9 +5,9 @@ import (
 )
 
 func main() {
-	var numbers = []int{100, 20, 10005, 40, 50}
+	var numbers = []int{-1, -22, -10005, -140, -150}
 
-	num := numbers[0]
+	num := numbers[1]
 
 	for i := 0; i < len(numbers); i++ {
 		if numbers[i] > num {

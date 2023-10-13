@@ -9,9 +9,9 @@ type LoggerStore struct {
 	log *log.Logger
 }
 
-func New() LoggerStore {
-	l := LoggerStore{
-		log: log.New(os.Stdin, "afthab", log.Lshortfile),
+func New() *LoggerStore {
+	logger := log.New(os.Stdout, "Afthab", log.Lshortfile)
+	return &LoggerStore{
+		log: logger,
 	}
-	return l
 }

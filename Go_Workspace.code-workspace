@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "day_2&3/assignment_13"
 		}
 	],
 	"settings": {}

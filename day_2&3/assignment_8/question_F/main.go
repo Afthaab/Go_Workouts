@@ -13,7 +13,7 @@ func main() {
 		Age:  22,
 	}
 	fmt.Println("The struct before = ", s)
-	s = UpdateTheStruct(&s, 20, "poorvi")
+	s = UpdateTheStruct(&s, 23, "poorvi")
 	fmt.Println("The updated struct is = ", s)
 
 }

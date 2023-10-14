@@ -8,46 +8,81 @@ import (
 	"strings"
 )
 
-var ErrEmptyFile = errors.New("the string is empty")
+var ErrEmptyFile = errors.New("the file is empty")
 
-func CountWords(content string) (int, error) {
+func CreateFile(name string) (*os.File, error) {
+	f, err := os.Create(name)
+	if err != nil {
+		return f, err
+	}
+	return f, nil
+}
+
+func ReadOpenedFile(f *os.File) ([]byte, error) {
+	store := make([]byte, 100)
+	_, err := f.Read(store)
+	if err != nil {
+		return nil, err
+	}
+	return store, nil
+}
+
+func ReadFile(path string) ([]byte, error) {
+	byte, err := os.ReadFile(path) // reads the file and prints out the content in bytes
+	if err != nil {
+		return nil, err
+	}
+	return byte, nil
+}
+
+func CountWords(store []byte) (int, error) {
+	content := string(store) // converts that byte into the string
+
 	if content == "" {
 		return 0, ErrEmptyFile
 	} // checking if the string is empty or not
 
 	words := strings.Fields(content)
-	// Fields splits the string s around each instance of one or more consecutive white space characters, as defined by unicode.IsSpace, returning a slice of substrings of s or an empty slice if s contains only white space.
-
 	return len(words), nil
 
 }
 
+func WriteFile(f *os.File, str string) (*os.File, error) {
+	data := []byte(str)
+	_, err := f.Write(data)
+	if err != nil {
+		return nil, err
+	}
+	return f, err
+
+}
+
 func main() {
-	byte, err := os.ReadFile("sample.txt") // reads the file and prints out the content in bytes
+
+	filename := "sample.txt"
+	fileContent := "  "
+
+	f, err := CreateFile(filename)
+	if err != nil {
+		log.Println("Could not ceated file ; ", err)
+		return
+	}
+
+	f, err = WriteFile(f, fileContent)
+	if err != nil {
+		log.Println("Could not write in the file")
+		return
+	}
+	store, err := ReadFile(filename)
+	if err != nil {
+		log.Println("Could not read the file ; ", err)
+		return
+	}
+	len, err := CountWords(store)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	// fmt.Println(byte)
-
-	content := string(byte) // converts that byte into the string
-
-	// fmt.Println(content)
-
-	count, err := CountWords(content)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	fmt.Println("the number of words in the file : ", count)
-
-	// checking if the file can be deleted
-
-	err = os.Remove("sample.txt")
-	if err != nil {
-		log.Println(err)
-		return
-	}
+	fmt.Println("The number of words in the file : ", len)
 }

@@ -32,27 +32,26 @@ func receiver1(c1 chan int) {
 	}
 }
 
-func receiver2(c2 chan int, c3 chan int) {
+func receiver2(c2 chan int) {
 	for num := range c2 {
-		fmt.Printf("Received: %d\n", num)
-	}
-
-	for num := range c3 {
 		fmt.Printf("Received: %d\n", num)
 	}
 }
 
 func main() {
-	c1 := make(chan int, 5)
-	c2 := make(chan int, 5)
-	c3 := make(chan int, 5)
+	c1 := make(chan int)
+	c2 := make(chan int)
+	c3 := make(chan int)
 
 	go sender1(c1)
 	go sender2(c2)
 	go sender3(c3)
 
 	go receiver1(c1)
-	go receiver2(c2, c3)
+	go receiver2(c2)
+
+	fmt.Println("End of the main")
 
 	time.Sleep(4 * time.Second)
+
 }

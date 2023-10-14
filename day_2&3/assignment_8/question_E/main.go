@@ -7,5 +7,5 @@ import (
 
 func main() {
 	log := logger.New()
-	fmt.Println("Logger instance is : ", log)
+	fmt.Println("Logger instance is : ", log.)
 }

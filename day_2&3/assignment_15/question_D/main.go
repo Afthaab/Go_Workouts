@@ -36,13 +36,9 @@ func receiver1(c1 chan int, wg *sync.WaitGroup) {
 	}
 }
 
-func receiver2(c2 chan int, c3 chan int, wg *sync.WaitGroup) {
+func receiver2(c2 chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for num := range c2 {
-		fmt.Printf("Received: %d\n", num)
-	}
-
-	for num := range c3 {
 		fmt.Printf("Received: %d\n", num)
 	}
 }
@@ -62,7 +58,9 @@ func main() {
 	go sender3(c3, wg)
 
 	go receiver1(c1, wg)
-	go receiver2(c2, c3, wg)
+	go receiver2(c2, wg)
+
+	fmt.Println("End of the main")
 
 	wg.Wait()
 }

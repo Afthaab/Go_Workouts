@@ -13,16 +13,23 @@ func sender(ch chan int) {
 }
 
 func receiver(ch chan int) {
-	for num := range ch {
-		fmt.Printf("Received: %d\n", num)
-	}
+	v := <-ch
+	fmt.Println("Recieved", v)
+	p := <-ch
+	fmt.Println("Recieved", p)
+	q := <-ch
+	fmt.Println("Recieved", q)
+	r := <-ch
+	fmt.Println("Recieved", r)
+	s := <-ch
+	fmt.Println("Recieved", s)
 }
 
 func main() {
-	ch := make(chan int)
+	ch := make(chan int, 5)
 
 	go sender(ch)
 	go receiver(ch)
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(10 * time.Second)
 }

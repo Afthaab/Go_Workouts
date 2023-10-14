@@ -47,13 +47,33 @@ func CountWords(store []byte) (int, error) {
 
 }
 
+func WriteFile(f *os.File, str string) (*os.File, error) {
+	data := []byte(str)
+	_, err := f.Write(data)
+	if err != nil {
+		return nil, err
+	}
+	return f, err
+
+}
+
 func main() {
-	f, err := CreateFile("sample1.txt")
+
+	filename := "sample.txt"
+	fileContent := "  "
+
+	f, err := CreateFile(filename)
 	if err != nil {
 		log.Println("Could not ceated file ; ", err)
 		return
 	}
-	store, err := ReadOpenedFile(f)
+
+	f, err = WriteFile(f, fileContent)
+	if err != nil {
+		log.Println("Could not write in the file")
+		return
+	}
+	store, err := ReadFile(filename)
 	if err != nil {
 		log.Println("Could not read the file ; ", err)
 		return
